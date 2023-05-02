@@ -47,15 +47,16 @@ func ProtectRoute(c *gin.Context) {
 	}
 	
 }
-func RestrictedRoute(c *gin.Context)  {
-	
-	user, _ := c.Get("user")
-	fmt.Println(user)
-	
-	// if user.Role != role {
-	// 	c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message":"You are not Authorized to perform this action."})
-	// 	return
-	// }
 
-	c.Next()
+func RestrictedRoute(role string) gin.HandlerFunc {
+	return func(c *gin.Context) {		
+		user, _ := c.Get("user")		
+
+		
+		if user.(models.User).Role != role {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "You are not authorized to perform this action"})
+			return
+		}		
+		c.Next()
+	}
 }
