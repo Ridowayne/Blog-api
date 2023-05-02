@@ -3,6 +3,7 @@ package main
 import (
 	"example/Go/controllers"
 	"example/Go/initializers"
+	"example/Go/middlewares"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
@@ -19,8 +20,8 @@ func main() {
 	 router.GET("/posts", controllers.GetPosts)
 	 router.POST("/post", controllers.CreatePost)
 	 router.GET("/posts/:id", controllers.ReadPost)
-	 router.PATCH("/post/:id", controllers.EditPost)
-	 router.DELETE("/post/:id", controllers.DeletePost)
+	 router.PATCH("/post/edit/:id", middlewares.ProtectRoute,middlewares.RestrictedRoute("Admin"),controllers.EditPost)
+	 router.DELETE("/post/:id", middlewares.ProtectRoute,middlewares.RestrictedRoute("Admin"),controllers.DeletePost)
 	 router.POST("/signup", controllers.CreateUser)
 	 router.POST("/login", controllers.LoginUser)
 	 router.Run()
