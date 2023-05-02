@@ -100,9 +100,3 @@ func LoginUser(c *gin.Context) {
 
 }
 
-func ProtectRoute(c *gin.Context) {
-c.Next()
-}
-func RestrictedRoute(c *gin.Context) {
-	c.Next()
-}
