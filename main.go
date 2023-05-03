@@ -24,6 +24,7 @@ func main() {
 	 router.DELETE("/post/:id", middlewares.ProtectRoute,middlewares.RestrictedRoute("Admin"),controllers.DeletePost)
 	 router.POST("/signup", controllers.CreateUser)
 	 router.POST("/login", controllers.LoginUser)
+	 router.POST("/forgotPassword", controllers.ForgotPassword)
 	 router.Run()
 	 
 }

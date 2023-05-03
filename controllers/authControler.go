@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"time"
+	"unicode"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -20,7 +21,7 @@ func CreateUser(c *gin.Context) {
 		LastName string
 		Email string 
 		Password string
-		Phone uint64
+		Phone string
 		Role string
 	}
 	
@@ -28,6 +29,19 @@ func CreateUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"Error Message":"KIndly fill in all the details to sign up"})
 		return
 	}
+	if len(body.Phone) != 10 {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid phone number"})
+        return 
+    }
+
+	for _, r := range body.Phone {
+        if !unicode.IsDigit(r) {
+			c.JSON(http.StatusBadRequest, gin.H{"message": "phone number can only contain numeric characters"})
+			
+            return 
+        }
+    }
+
 	var existingUser models.User
 	
 	 initializers.DB.First(&existingUser, "email = ?", body.Email)
@@ -43,7 +57,7 @@ func CreateUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"Error Message":"Failed to hash password"})
 		return
 	}
-
+	
 	user := models.User{FirstName: body.FirstName, LastName: body.LastName, Email: body.Email, Password: string(hash)}
 	newUser:= initializers.DB.Create(&user)
 
