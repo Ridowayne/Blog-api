@@ -137,3 +137,18 @@ func ForgotPassword(c *gin.Context) {
 
 
 }
+ func ResetPassword(c *gin.Context) {
+
+ }
+ func EditProfile(c *gin.Context){
+	user, _ :=c.Get("user")
+
+	id:= user.(models.User).ID
+	var profile models.User
+
+	 initializers.DB.First(&profile, id)
+	 c.JSON(http.StatusOK, gin.H{"profile": profile})
+	
+	
+ }
+ func ViewMyProfile(c *gin.Context){}
