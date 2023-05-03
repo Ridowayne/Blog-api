@@ -140,7 +140,7 @@ func ForgotPassword(c *gin.Context) {
  func ResetPassword(c *gin.Context) {
 
  }
- func EditProfile(c *gin.Context){
+ func ViewMyProfile(c *gin.Context){
 	user, _ :=c.Get("user")
 
 	id:= user.(models.User).ID
@@ -151,4 +151,4 @@ func ForgotPassword(c *gin.Context) {
 	
 	
  }
- func ViewMyProfile(c *gin.Context){}
+ func EditProfile(c *gin.Context){}

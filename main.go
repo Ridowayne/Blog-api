@@ -25,6 +25,7 @@ func main() {
 	 router.POST("/signup", controllers.CreateUser)
 	 router.POST("/login", controllers.LoginUser)
 	 router.POST("/forgotPassword", controllers.ForgotPassword)
+	 router.GET("/me", controllers.ViewMyProfile)
 	 router.Run()
 	 
 }
