@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"example/Go/helpers"
 	"example/Go/initializers"
 	"example/Go/models"
 	"net/http"
@@ -100,3 +101,25 @@ func LoginUser(c *gin.Context) {
 
 }
 
+func ForgotPassword(c *gin.Context) {
+	var body struct{
+		Email string 
+	}
+
+	if c.Bind(&body) != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Kindly provide an email address"})
+		return
+	}
+	
+	var user models.User
+	initializers.DB.First(&user, "email = ?", body.Email)
+
+	if user.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"Error Message":"Kindly confirm your email address and try again"})
+		return
+	}
+	helpers.Sendmail([]string{"hassanrilwan12@gmail.com"},)
+	c.JSON(http.StatusOK, gin.H{"message":"check your mail"})
+
+
+}
