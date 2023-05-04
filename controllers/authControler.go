@@ -151,4 +151,22 @@ func ForgotPassword(c *gin.Context) {
 	
 	
  }
- func EditProfile(c *gin.Context){}
+ func EditProfile(c *gin.Context){
+	user, _ := c.Get("user")
+	id:= user.(models.User).ID
+	var newInfo struct{
+		FirstName *string
+		LastName *string
+		Phone *string
+	}
+	c.Bind(newInfo)
+
+	
+	var existingUser models.User
+	initializers.DB.First(&existingUser, id)
+	existingUser.FirstName =*newInfo.FirstName
+	existingUser.LastName =*newInfo.LastName
+	existingUser.Phone =*newInfo.Phone
+	initializers.DB.Save(&existingUser)
+	
+ }
