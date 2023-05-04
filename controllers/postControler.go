@@ -5,6 +5,7 @@ import (
 	"example/Go/models"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -52,8 +53,24 @@ func DeletePost(c *gin.Context) {
 }
 
 func GetPosts(c *gin.Context) {
+	countPerPage := c.Query("limit") 
+	page, _ := strconv.Atoi(c.Query("page"))
+    if page <= 0 {
+      page = 1
+    }
+	limit, _:= strconv.Atoi(countPerPage) 
+	offset := (page - 1) * page
+
 	var posts []models.Post
-	initializers.DB.Find(&posts)
+	// initializers.DB.Find(&posts)
+	if limit == 0 {
+		limit = 10
+
+	}
+	if offset == 0 {
+		offset = 30
+	}
+	initializers.DB.Limit(limit).Offset(offset).Find(&posts)
 	
 	c.JSON(200, gin.H{"post": posts})
 }
