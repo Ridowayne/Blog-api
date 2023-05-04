@@ -26,6 +26,7 @@ func main() {
 	 router.POST("/login", controllers.LoginUser)
 	 router.POST("/forgotPassword", controllers.ForgotPassword)
 	 router.GET("/me", controllers.ViewMyProfile)
+	 router.PATCH("/updateProfile",controllers.EditProfile )
 	 router.Run()
 	 
 }
